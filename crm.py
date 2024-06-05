@@ -45,10 +45,14 @@ def read_companies():
         print(f"ID: {company[0]}, Name: {company[1]}")
 
 def read_employees():
-    cur.execute("SELECT * FROM employees")
+    cur.execute("""
+        SELECT employees.id, employees.name, companies.name AS company_name
+        FROM employees
+        JOIN companies ON employees.company_id = companies.id
+    """)
     employees = cur.fetchall()
     for employee in employees:
-        print(f"ID: {employee[0]}, Name: {employee[1]}, Company ID: {employee[2]}")
+        print(f"ID: {employee[0]}, Name: {employee[1]}, Company: {employee[2]}")
 
 def update_company():
     company_id = input("Enter company ID: ")
